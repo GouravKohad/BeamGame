@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>HTML</title>
+  
+  <!-- HTML -->
+  
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  
+  <!-- Project -->
+  <script type="module">
+  import kaboom from "https://unpkg.com/kaboom@3000/dist/kaboom.mjs"
+  // initialize context
+kaboom()
+
+// Set gravity
+
+let SPEED=620
+let beam;
+loadSprite('player','sprites/player.png')
+loadSprite('arrow','sprites/arrow.jpg')
+loadSprite('beam','sprites/beam.png')
+loadSound('background','sprites/pixel-fight-8-bit-arcade-music-background-music-for-video-44-second-208772.mp3')
+setGravity(200)
+
+let player = add([
+  sprite('player'),
+  pos(center()),
+  scale(.1),
+  area(),
+  "player"
+  ])
+let score=0
+let scoreText=add([
+    text('Score: ' ),
+    pos(0, 0),
+    area(),
+    scale(1)
+    ])
+let time = setInterval(()=> {
+  score+=1
+  
+  scoreText.destroy()
+ scoreText= add([
+    text('Score: '+score),
+    pos(width()-120,20),
+    area(),
+    scale(.5)
+    ])
+    
+},100)
+loop(4,()=> {
+  for(let i=0;i<4;i++){
+let beam=  add([
+   sprite('beam') ,
+   pos(rand(width()),rand(30)),
+   rotate(-90,-90),
+   scale(-0.04),
+   area(),
+   body(),
+   "beam"
+   
+    ])}
+})
+
+onCollide('player','beam',(player)=> {
+  destroy(player)
+ clearInterval(time)
+ add([
+    text('Game Over'),
+    pos(25,200),
+    area(),
+    scale(1.6)
+    ])
+    add([
+    text('Made by Gourav Saini'),
+    pos(45, 275),
+    area(),
+    scale(.6)
+    ])
+    setBackground(0, 148, 255, 1)
+  
+})
+let topArrow= add([
+  sprite('arrow'),
+  pos(150,450),
+  scale(.16),
+area(),
+  "topArrow"
+  ])
+let leftArrow = add([
+  sprite('arrow'),
+  pos(100, 550),
+  scale(.16),
+  rotate(-90),
+  area(),
+  "leftArrow"
+  ])
+let rigthArrow = add([
+  sprite('arrow'),
+  pos(260, 490),
+  scale(.16),
+  rotate(90),
+area(),
+  "rigthArrow"
+  ])
+  let bottomArrow = add([
+  sprite('arrow'),
+  pos(211, 597),
+  scale(.16),
+  rotate(180),
+area(),
+  "bottomArrow"
+  ])
+onClick("leftArrow",()=> {
+  
+  player.move(-SPEED,0)
+})
+onClick("topArrow", () => {
+  
+  player.move(0, -SPEED)
+})
+onClick("bottomArrow", () => {
+
+  player.move(0, SPEED)
+})
+onClick("rigthArrow", () => {
+
+  player.move(SPEED , 0)
+})
+let bg= false
+onClick(()=> {
+  if(!bg){
+  play('background')
+    bg=true
+  }
+})
+
+setBackground(0, 148, 255, 1)
+</script>
+  <script src="main.js"></script>
+</body>
+</html>
