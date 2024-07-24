@@ -20,7 +20,10 @@
   <script type="module">
   import kaboom from "https://unpkg.com/kaboom@3000/dist/kaboom.mjs"
   // initialize context
-kaboom()
+kaboom({
+  width:360,
+  height:672
+})
 
 // Set gravity
 let topArrow
@@ -136,6 +139,7 @@ arrowfunc(pl,620)
 })
 
 function arrowfunc(player,SPEED){
+  
  topArrow= add([
   sprite('arrow'),
   pos(width()/2.4,height()/1.5),
@@ -159,9 +163,11 @@ area(),
 area(),
   "rigthArrow"
   ])
+  console.log(width())
+  console.log(height())
    bottomArrow = add([
   sprite('arrow'),
-  pos(width()/1.7, height()/1.1),
+  pos(center().x,center().y),
   scale(.16),
   rotate(180),
 area(),
