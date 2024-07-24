@@ -23,7 +23,10 @@
 kaboom()
 
 // Set gravity
-
+let topArrow
+let rigthArrow
+let bottomArrow
+let leftArrow
 let SPEED=620
 let beam;
 loadSprite('player','sprites/player.png')
@@ -32,7 +35,9 @@ loadSprite('beam','sprites/beam.png')
 loadSound('background','sprites/pixel-fight-8-bit-arcade-music-background-music-for-video-44-second-208772.mp3')
 setGravity(200)
 
-let player = add([
+let player =true;
+
+player=add([
   sprite('player'),
   pos(center()),
   scale(.1),
@@ -73,31 +78,72 @@ let beam=  add([
 })
 
 onCollide('player','beam',(player)=> {
+let c=true
+  SPEED=620
+  destroy(topArrow)
+  destroy(bottomArrow)
+  destroy(leftArrow)
+  destroy(rigthArrow)
   destroy(player)
  clearInterval(time)
- add([
+ let g=add([
     text('Game Over'),
     pos(25,200),
     area(),
     scale(1.6)
     ])
-    add([
+  let g1=  add([
     text('Made by Gourav Saini'),
     pos(45, 275),
     area(),
     scale(.6)
     ])
     setBackground(0, 148, 255, 1)
+  onClick(()=> {
+    
+    if(c){
+      SPEED=620
+      c=false
+    setBackground(0, 148, 255, 1)
+    g.destroy()
+    g1.destroy()
+    
+   let pl = add([
+  sprite('player'),
+  pos(center()),
+  scale(.1),
+  area(),
+  "player"
+  ])
   
+  score=0
+  time = setInterval(() => {
+  score += 1
+
+  scoreText.destroy()
+  scoreText = add([
+    text('Score: ' + score),
+    pos(width() - 120, 20),
+    area(),
+    scale(.5)
+    ])
+
+},100)
+arrowfunc(pl,620)
+      
+    }
 })
-let topArrow= add([
+})
+
+function arrowfunc(player,SPEED){
+ topArrow= add([
   sprite('arrow'),
   pos(150,450),
   scale(.16),
 area(),
   "topArrow"
   ])
-let leftArrow = add([
+ leftArrow = add([
   sprite('arrow'),
   pos(100, 550),
   scale(.16),
@@ -105,7 +151,7 @@ let leftArrow = add([
   area(),
   "leftArrow"
   ])
-let rigthArrow = add([
+ rigthArrow = add([
   sprite('arrow'),
   pos(260, 490),
   scale(.16),
@@ -113,7 +159,7 @@ let rigthArrow = add([
 area(),
   "rigthArrow"
   ])
-  let bottomArrow = add([
+   bottomArrow = add([
   sprite('arrow'),
   pos(211, 597),
   scale(.16),
@@ -137,6 +183,8 @@ onClick("rigthArrow", () => {
 
   player.move(SPEED , 0)
 })
+console.log(SPEED)
+}
 let bg= false
 onClick(()=> {
   if(!bg){
@@ -144,7 +192,7 @@ onClick(()=> {
     bg=true
   }
 })
-
+arrowfunc(player,SPEED)
 setBackground(0, 148, 255, 1)
 </script>
   <script src="main.js"></script>
